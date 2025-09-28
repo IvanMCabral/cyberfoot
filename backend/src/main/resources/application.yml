@@ -1,33 +1,9 @@
 spring:
-  r2dbc:
-    url: "r2dbc:h2:mem:///testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;USER=cyber;PASSWORD=foot"
-    username: cyber
-    password: foot
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;USER=cyber;PASSWORD=foot"
-    username: cyber
-    password: foot
-  flyway:
-    url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;USER=cyber;PASSWORD=foot"
-    enabled: true
-    locations: classpath:db/migration
-    baseline-on-migrate: true
-    validate-on-migrate: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/cyberfoot
 
 logging:
   config: classpath:log4j2-spring.xml
   level:
     root: INFO
-
-# Puedes cambiar a PostgreSQL así:
-# spring:
-#   r2dbc:
-#     url: r2dbc:postgresql://localhost:5432/cyberfoot
-#     username: postgres
-#     password: postgres
-#   datasource:
-#     driver-class-name: org.postgresql.Driver
-#     url: jdbc:postgresql://localhost:5432/cyberfoot
-#     username: postgres
-#     password: postgres

@@ -1,9 +1,7 @@
 package com.cyberfoot.domain.model;
 
-import java.util.UUID;
-
 public record Club(
-    UUID id,
+    String id,
     String name,
     int overall
 ) {}
