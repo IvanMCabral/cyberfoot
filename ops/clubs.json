@@ -1,0 +1,12 @@
+[
+  { "_id": "club1", "name": "Equipo 1", "overall": 95 },
+  { "_id": "club2", "name": "Equipo 2", "overall": 90 },
+  { "_id": "club3", "name": "Equipo 3", "overall": 85 },
+  { "_id": "club4", "name": "Equipo 4", "overall": 75 },
+  { "_id": "club5", "name": "Equipo 5", "overall": 65 },
+  { "_id": "club6", "name": "Equipo 6", "overall": 55 },
+  { "_id": "club7", "name": "Equipo 7", "overall": 45 },
+  { "_id": "club8", "name": "Equipo 8", "overall": 35 },
+  { "_id": "club9", "name": "Equipo 9", "overall": 20 },
+  { "_id": "club10", "name": "Equipo 10", "overall": 10 }
+]

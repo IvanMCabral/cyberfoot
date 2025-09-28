@@ -2,11 +2,9 @@ package com.cyberfoot.adapters.web;
 
 import com.cyberfoot.domain.model.Club;
 import com.cyberfoot.domain.ports.ClubRepository;
-import com.cyberfoot.adapters.persistence.club.ClubRepositoryAdapter;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -19,17 +17,18 @@ public class ClubController {
     }
 
     @GetMapping("/clubs/{id}")
-    public Mono<Club> getClub(@PathVariable UUID id) {
-        return clubRepo.findById(id);
+    public Mono<Club> getClub(@PathVariable String id) {
+        return clubRepo.findById(id)
+            .switchIfEmpty(Mono.empty());
     }
 
     @GetMapping("/clubs")
     public Flux<Club> getAllClubs() {
-        return ((ClubRepositoryAdapter) clubRepo).findAll();
+        return clubRepo.findAll();
     }
 
     @PostMapping("/clubs")
     public Mono<Club> createClub(@RequestBody Club club) {
-        return ((ClubRepositoryAdapter) clubRepo).save(club);
+        return clubRepo.save(club);
     }
 }
