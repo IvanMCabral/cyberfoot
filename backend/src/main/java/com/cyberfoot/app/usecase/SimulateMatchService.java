@@ -13,8 +13,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Random;
-import java.util.UUID;
-
 @Service
 public class SimulateMatchService implements SimulateMatchUseCase {
     private final FixtureRepository fixtureRepo;
@@ -29,14 +27,14 @@ public class SimulateMatchService implements SimulateMatchUseCase {
     }
 
     @Override
-    public Flux<MatchEvent> simulate(UUID fixtureId) {
+    public Flux<MatchEvent> simulate(String fixtureId) {
         return fixtureRepo.findById(fixtureId)
             .switchIfEmpty(Mono.error(new RuntimeException("Fixture not found")))
             .flatMapMany(fixture -> {
                 // Set status LIVE and persist
                 Fixture liveFixture = new Fixture(
                     fixture.id(), fixture.homeClubId(), fixture.awayClubId(), fixture.scheduledAt(),
-                    "LIVE", fixture.goalsHome(), fixture.goalsAway()
+                    "LIVE", fixture.goalsHome(), fixture.goalsAway(), fixture.seasonId(), fixture.matchday()
                 );
                 return fixtureRepo.save(liveFixture)
                     .thenMany(simulateMatch(liveFixture));
@@ -52,8 +50,16 @@ public class SimulateMatchService implements SimulateMatchUseCase {
                 Club away = tuple.getT2();
                 double H = home != null ? home.overall() : 70;
                 double A = away != null ? away.overall() : 70;
-                double pHome = (H / (H + A)) * 0.08;
-                double pAway = (A / (H + A)) * 0.08;
+                // Penalización no lineal para el equipo débil, pero nunca 0
+                // Fórmula de probabilidad de gol por minuto para cada equipo
+                // Cuanto mayor la diferencia de overalls, menor la chance del equipo débil
+                // exp: penaliza más la diferencia (ajustable), multiplier: goles promedio por partido (ajustable)
+                double exp = 2.0; // penalización más fuerte de diferencia
+                double multiplier = 0.06; // menos goles promedio por partido
+                // Probabilidad para el equipo local
+                final double pHome = (Math.pow(H, exp) / (Math.pow(H, exp) + Math.pow(A, exp))) * multiplier;
+                // Probabilidad para el equipo visitante (puede ser 0 si la diferencia es extrema)
+                final double pAway = (Math.pow(A, exp) / (Math.pow(H, exp) + Math.pow(A, exp))) * multiplier;
                 class State {
                     int goalsHome = 0;
                     int goalsAway = 0;
@@ -82,7 +88,7 @@ public class SimulateMatchService implements SimulateMatchUseCase {
                         // Persistir resultado final y status FT
                         Fixture ftFixture = new Fixture(
                             fixture.id(), fixture.homeClubId(), fixture.awayClubId(), fixture.scheduledAt(),
-                            "FT", state.goalsHome, state.goalsAway
+                            "FT", state.goalsHome, state.goalsAway, fixture.seasonId(), fixture.matchday()
                         );
                         return fixtureRepo.save(ftFixture)
                             .thenReturn(new MatchEvent(++state.seq, 90, "END", state.goalsHome, state.goalsAway, "Finalizado"));
