@@ -1,0 +1,23 @@
+<div *ngIf="team" style="margin-top: 2rem; text-align: center;">
+  <h2>Plantilla de {{ team.name }}</h2>
+  <table style="margin: 0 auto; border-collapse: collapse; min-width: 320px;">
+    <thead>
+      <tr>
+        <th style="border-bottom: 1px solid #aaa; text-align: left;">Jugador</th>
+        <th style="border-bottom: 1px solid #aaa; text-align: right;">Puntaje</th>
+        <th style="border-bottom: 1px solid #aaa; text-align: center;">Titular</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of team.players; let i = index">
+        <td>{{ player.name }}</td>
+        <td style="text-align: right;">{{ player.rating }}</td>
+        <td style="text-align: center;">
+          <input type="checkbox" [(ngModel)]="player.isStarter" [disabled]="getStartersCount() >= 7 && !player.isStarter" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top: 1rem; color: #1976d2; font-weight: bold;">Titulares seleccionados: {{ getStartersCount() }}/7</div>
+  <button (click)="confirm()" [disabled]="getStartersCount() !== 7" style="margin-top: 1rem; padding: 0.5rem 2rem; font-size: 1.1rem; border-radius: 6px; background: #1976d2; color: white; border: none; cursor: pointer;">Confirmar alineación</button>
+</div>

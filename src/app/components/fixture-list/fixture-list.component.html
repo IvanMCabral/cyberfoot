@@ -1,0 +1,10 @@
+<div *ngIf="fixtures && fixtures.length > 0" style="margin-top: 2rem; text-align: center;">
+  <h2>Fixture generado</h2>
+  <ul style="list-style: none; padding: 0; max-width: 400px; margin: 0 auto;">
+    <li *ngFor="let fixture of fixtures">
+  <span style="font-weight: bold; color: #1976d2;">{{ getClubName(fixture.homeClubId) }}</span>
+  vs
+  <span style="font-weight: bold; color: #d32f2f;">{{ fixture.awayClubName || getClubName(fixture.awayClubId) }}</span>
+    </li>
+  </ul>
+</div>

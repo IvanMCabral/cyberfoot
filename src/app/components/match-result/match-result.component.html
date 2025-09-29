@@ -1,0 +1,33 @@
+<div *ngIf="isPlaying || matchResult" style="margin-top: 1.5rem; text-align: center;">
+  <h3 *ngIf="isPlaying">Simulando partido...</h3>
+  <h3 *ngIf="matchResult && !isPlaying">Resultado del partido</h3>
+  <div style="width: 100%; max-width: 400px; margin: 0.7rem auto 1.2rem auto;">
+    <div style="background: #eee; border-radius: 8px; height: 18px; overflow: hidden;">
+      <div [style.width]="matchProgress + '%'" style="background: #1976d2; height: 100%; transition: width 0.3s;"></div>
+    </div>
+    <div style="font-size: 0.95rem; color: #555; margin-top: 0.2rem;">Minuto: {{ animatedEvents.length > 0 ? animatedEvents[animatedEvents.length-1].minute : 0 }} / 90</div>
+  </div>
+  <div style="max-width: 400px; margin: 0 auto; text-align: left;">
+    <ng-container *ngIf="animatedEvents.length > 0; else waiting">
+      <ul style="list-style: none; padding: 0;">
+        <li *ngFor="let event of animatedEvents; trackBy: trackBySeq">
+          <span style="color: #555;">{{ event.minute }}'</span>
+          <span *ngIf="event.message"> - {{ event.message }}</span>
+          <span *ngIf="!event.message">
+            - {{ event.type }}
+            <span *ngIf="event.type === 'GOAL'"> | Goles: {{ event.goalsHome }} - {{ event.goalsAway }}</span>
+            <span *ngIf="event.type === 'END'"> | Final: {{ event.goalsHome }} - {{ event.goalsAway }}</span>
+            <span *ngIf="event.type === 'TICK'"> | {{ event.goalsHome }} - {{ event.goalsAway }}</span>
+          </span>
+        </li>
+      </ul>
+    </ng-container>
+    <ng-template #waiting>
+      <div *ngIf="isPlaying" style="color: #888; font-size: 1rem; margin-top: 1rem; text-align: center;">Esperando eventos del partido...</div>
+    </ng-template>
+  </div>
+  <div *ngIf="matchResult && !isPlaying" style="margin-top: 1rem;">
+    <div style="font-size: 1.3rem; font-weight: bold; margin-bottom: 0.7rem;">{{ matchResult.finalResult }}</div>
+    <button (click)="nextMatch.emit()" style="padding: 0.5rem 1.5rem; font-size: 1rem; border-radius: 6px; background: #388e3c; color: white; border: none; cursor: pointer;">Siguiente partido</button>
+  </div>
+</div>
