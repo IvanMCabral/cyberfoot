@@ -31,4 +31,10 @@ public class MatchController {
             .doOnComplete(() -> logger.info("[PLAY] Simulación SSE completada para fixtureId: {}", fixtureId))
             .map(event -> ServerSentEvent.builder(event).build());
     }
+
+    @PostMapping("/match/{fixtureId}/simulate")
+    public void triggerSimulation(@PathVariable("fixtureId") String fixtureId, @RequestBody(required = false) Object body) {
+        logger.info("[PLAY] POST /match/{}/simulate recibido. Body: {}", fixtureId, body);
+        // No hace nada, solo existe para que el frontend pueda disparar la simulación
+    }
 }

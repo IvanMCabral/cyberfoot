@@ -36,44 +36,53 @@ public class FixtureController {
     }
 
     @PostMapping("/fixtures")
-        public Mono<Object> createFixtures(@RequestBody Map<String, String> body) {
-            String clubId = body.get("clubId");
-            // Buscar todos los clubes menos el propio
-            return clubRepo.findAll()
-                .filter(club -> !club.id().equals(clubId))
-                .collectList()
-                .flatMap(rivals -> {
-                    List<Fixture> fixtures = new ArrayList<>();
-                    for (Club rival : rivals) {
+    public Mono<Object> createFullFixture() {
+        return clubRepo.findAll().collectList().flatMap(clubs -> {
+            int n = clubs.size();
+            List<List<Map<String, Object>>> rounds = new ArrayList<>();
+            // Algoritmo round-robin
+            List<Club> clubList = new ArrayList<>(clubs);
+            if (n % 2 != 0) clubList.add(null); // Si impar, agregar dummy
+            int numRounds = clubList.size() - 1;
+            int numMatchesPerRound = clubList.size() / 2;
+            for (int round = 0; round < numRounds; round++) {
+                List<Map<String, Object>> matches = new ArrayList<>();
+                for (int match = 0; match < numMatchesPerRound; match++) {
+                    Club home = clubList.get(match);
+                    Club away = clubList.get(clubList.size() - 1 - match);
+                    if (home != null && away != null) {
                         Fixture f = new Fixture(
                             UUID.randomUUID().toString(),
-                            clubId,
-                            rival.id(),
+                            home.id(),
+                            away.id(),
                             null,
                             "SCHEDULED",
                             0,
                             0,
                             null,
-                            1
+                            round + 1
                         );
-                        fixtures.add(f);
                         fixtureRepo.save(f).subscribe();
-                    }
-                    // Devolver los nombres de los rivales junto con los fixtures
-                    List<Map<String, Object>> fixtureDtos = new ArrayList<>();
-                    for (int i = 0; i < fixtures.size(); i++) {
-                        Fixture fix = fixtures.get(i);
-                        Club rival = rivals.get(i);
                         Map<String, Object> dto = new HashMap<>();
-                        dto.put("id", fix.id());
-                        dto.put("homeClubId", fix.homeClubId());
-                        dto.put("awayClubId", fix.awayClubId());
-                        dto.put("awayClubName", rival.name());
-                        fixtureDtos.add(dto);
+                        dto.put("id", f.id());
+                        dto.put("homeClubId", f.homeClubId());
+                        dto.put("homeClubName", home.name());
+                        dto.put("awayClubId", f.awayClubId());
+                        dto.put("awayClubName", away.name());
+                        dto.put("matchday", round + 1);
+                        matches.add(dto);
                     }
-                    Map<String, Object> response = new HashMap<>();
-                    response.put("fixtures", fixtureDtos);
-                    return Mono.just(response);
-                });
+                }
+                // Rotar los equipos para la siguiente ronda
+                if (clubList.size() > 2) {
+                    Club last = clubList.remove(clubList.size() - 1);
+                    clubList.add(1, last);
+                }
+                rounds.add(matches);
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("rounds", rounds);
+            return Mono.just(response);
+        });
     }
-}
+    }
