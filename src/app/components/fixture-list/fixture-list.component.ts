@@ -9,11 +9,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./fixture-list.component.scss']
 })
 export class FixtureListComponent {
-  @Input() fixtures: any[] = [];
+  @Input() rounds: any[][] = [];
   @Input() teams: any[] = [];
 
   getClubName(clubId: string): string {
-    const club = this.teams.find((t: any) => t.id === clubId);
+    const club = this.teams?.find((t: any) => t.id === clubId);
     return club ? club.name : clubId;
   }
 }

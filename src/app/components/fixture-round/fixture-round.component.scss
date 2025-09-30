@@ -1,0 +1,188 @@
+/* Mejoras visuales para fixture-round */
+.play-all-btn {
+	margin-bottom: 1rem;
+	padding: 0.5rem 1.5rem;
+	font-size: 1rem;
+	border-radius: 6px;
+	background: #1976d2;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+.global-progress-bar {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1.2rem;
+	max-width: 520px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.progress-bar {
+	width: 100%;
+	max-width: 320px;
+	height: 12px;
+	background: #eee;
+	border-radius: 6px;
+	overflow: hidden;
+	margin-right: 12px;
+	position: relative;
+}
+.progress-bar-inner {
+	height: 100%;
+	background: #1976d2;
+	transition: width 0.5s cubic-bezier(.4,2,.3,1);
+}
+.progress-bar-inner.finished {
+	background: #388e3c;
+}
+.progress-label {
+	font-size: 1rem;
+	color: #555;
+	min-width: 40px;
+}
+.fixture-table {
+	width: 100%;
+	max-width: 520px;
+	margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 0 10px;
+}
+.fixture-table th {
+	background: #f0f0f7;
+	font-weight: bold;
+	padding: 0.6rem 0.5rem;
+	border-radius: 6px 6px 0 0;
+	color: #222;
+	font-size: 1.05rem;
+}
+.fixture-row {
+	background: #f7f7fa;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+	padding: 0.7rem 1rem;
+}
+.team {
+	font-weight: bold;
+	min-width: 120px;
+	font-size: 1.1rem;
+}
+.home {
+	color: #1976d2;
+}
+.away {
+	color: #d32f2f;
+}
+.result-cell {
+	font-size: 1.08rem;
+	font-weight: bold;
+	text-align: center;
+}
+.minute-cell {
+	font-size: 1.05rem;
+	text-align: center;
+	color: #555;
+}
+.status-cell {
+	font-size: 1.05rem;
+	text-align: center;
+}
+.final-result {
+	color: #388e3c;
+	font-size: 1.08rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.next-round-btn {
+	padding: 0.5rem 1.5rem;
+	font-size: 1rem;
+	border-radius: 6px;
+	background: #388e3c;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+/* Mejoras visuales para fixture-round */
+.play-all-btn {
+	margin-bottom: 1rem;
+	padding: 0.5rem 1.5rem;
+	font-size: 1rem;
+	border-radius: 6px;
+	background: #1976d2;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+.fixture-list {
+	list-style: none;
+	padding: 0;
+	max-width: 520px;
+	margin: 0 auto;
+}
+.fixture-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.7rem;
+	background: #f7f7fa;
+	border-radius: 10px;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+	padding: 0.7rem 1rem;
+}
+.team {
+	font-weight: bold;
+	min-width: 120px;
+	font-size: 1.1rem;
+}
+.home {
+	color: #1976d2;
+}
+.away {
+	color: #d32f2f;
+}
+.vs {
+	margin: 0 8px;
+	font-size: 1.1rem;
+}
+.progress-result {
+	display: flex;
+	align-items: center;
+	margin-left: 1rem;
+	min-width: 180px;
+}
+.progress-bar {
+	width: 80px;
+	height: 10px;
+	background: #eee;
+	border-radius: 5px;
+	overflow: hidden;
+	margin-right: 8px;
+	position: relative;
+}
+.progress-bar-inner {
+	height: 100%;
+	background: #1976d2;
+	transition: width 0.5s cubic-bezier(.4,2,.3,1);
+}
+.progress-bar-inner.finished {
+	background: #388e3c;
+}
+.progress-label {
+	font-size: 0.95rem;
+	color: #555;
+}
+.final-result {
+	margin-left: 8px;
+	color: #388e3c;
+	font-size: 1.08rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+.next-round-btn {
+	padding: 0.5rem 1.5rem;
+	font-size: 1rem;
+	border-radius: 6px;
+	background: #388e3c;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+/* Estilos para fixture-round. Puedes agregar estilos personalizados aquí. */

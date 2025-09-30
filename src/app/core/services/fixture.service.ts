@@ -6,8 +6,16 @@ import { map } from 'rxjs/operators';
 export interface Fixture {
   id: string;
   homeClubId: string;
+  homeClubName?: string;
   awayClubId: string;
   awayClubName?: string;
+  matchday?: number;
+  matchResult?: {
+    goalsHome: number;
+    goalsAway: number;
+    finalResult?: string;
+    events?: any[];
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -42,14 +50,9 @@ export class FixtureService {
 
   constructor(private http: HttpClient) {}
 
-  createFixtures(clubId: string): Observable<Fixture[]> {
-    return this.http.post<any>('/api/fixtures', { clubId }).pipe(
-      map(data => (Array.isArray(data) ? data : data.fixtures).map((f: any) => ({
-        id: f.id,
-        homeClubId: f.homeClubId,
-        awayClubId: f.awayClubId,
-        awayClubName: f.awayClubName
-      })))
+  createFullFixture(): Observable<Fixture[][]> {
+    return this.http.post<any>('/api/fixtures', {}).pipe(
+      map(data => data.rounds as Fixture[][])
     );
   }
 

@@ -7,6 +7,7 @@ export interface Player {
   name: string;
   rating: number;
   isStarter?: boolean;
+  uid?: string;
 }
 
 export interface Team {

@@ -12,21 +12,34 @@
 </div>
 
 <!-- Paso 2: Edición de plantilla y titulares -->
-<team-lineup *ngIf="step === 2 && selectedTeamIndex !== null"
-  [team]="teams[selectedTeamIndex]"
-  (lineupConfirmed)="onLineupConfirmed($event)">
-</team-lineup>
+
+<div *ngIf="step === 2 && selectedTeamIndex !== null">
+  <team-lineup
+    *ngIf="showLineup"
+    [team]="teams[selectedTeamIndex]"
+    [attr.data-key]="showLineupKey"
+    (lineupConfirmed)="onLineupConfirmed($event)">
+  </team-lineup>
+  <fixture-list
+    [rounds]="rounds"
+    [teams]="teams">
+  </fixture-list>
+  <standings-table
+    [standings]="standings">
+  </standings-table>
+</div>
 
 <!-- Paso 3: Fixture generado -->
 
-<div *ngIf="step === 3 && fixtures && fixtures.length > 0">
-  <fixture-list [fixtures]="fixtures"></fixture-list>
-
-  <div style="margin-top: 2rem; text-align: center;">
-  <button (click)="playCurrentMatch()" style="padding: 0.6rem 2rem; font-size: 1.1rem; border-radius: 6px; background: #1976d2; color: white; border: none; cursor: pointer;">Jugar partido</button>
-  </div>
-
-  <match-result (nextMatch)="nextMatch()"></match-result>
+<div *ngIf="step === 3 && rounds && rounds.length > 0">
+  <fixture-round
+    [round]="rounds[currentRoundIndex]"
+    [teams]="teams"
+    [roundIndex]="currentRoundIndex"
+    [selectedStarters]="selectedStarters"
+    (nextRound)="onNextRound()"
+    (roundUpdated)="onRoundUpdated($event)"
+  ></fixture-round>
 </div>
 
 

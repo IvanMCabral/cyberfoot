@@ -1,0 +1,44 @@
+<div *ngIf="round && round.length > 0" style="margin-top: 2rem; text-align: center;">
+  <h3>Fecha {{ roundIndex + 1 }}</h3>
+  <button *ngIf="!isSimulating() && !allFinished" (click)="playAllMatches()" class="play-all-btn">Jugar todos</button>
+  <div class="global-progress-bar" *ngIf="matchStates.length > 0">
+    <div class="progress-bar">
+      <div class="progress-bar-inner" [style.width]="getGlobalProgress() + '%'" [class.finished]="allFinished"></div>
+    </div>
+    <span class="progress-label">{{ getGlobalProgress() }}%</span>
+  </div>
+  <table class="fixture-table">
+    <thead>
+      <tr>
+        <th>Local</th>
+        <th>Visitante</th>
+        <th>Resultado</th>
+        <th>Minuto</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fixture of round; let i = index" class="fixture-row">
+        <td class="team home">{{ fixture.homeClubName || getClubName(fixture.homeClubId) }}</td>
+        <td class="team away">{{ fixture.awayClubName || getClubName(fixture.awayClubId) }}</td>
+        <td class="result-cell">
+          <span>
+            {{ (matchStates[i].events.length || 0) > 0 ? matchStates[i].events[matchStates[i].events.length-1].goalsHome : 0 }} - {{ (matchStates[i].events.length || 0) > 0 ? matchStates[i].events[matchStates[i].events.length-1].goalsAway : 0 }}
+          </span>
+        </td>
+        <td class="minute-cell">
+          <span>
+            {{ (matchStates[i].events.length || 0) > 0 ? matchStates[i].events[matchStates[i].events.length-1].minute : 0 }}
+          </span>
+        </td>
+        <td class="status-cell">
+          <span *ngIf="matchStates[i]?.isPlaying">Jugando</span>
+          <span *ngIf="matchStates[i]?.matchResult" class="final-result"><strong>Finalizado</strong></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="allFinished" style="margin-top: 1rem;">
+    <button (click)="onContinue()" class="next-round-btn">Continuar</button>
+  </div>
+</div>

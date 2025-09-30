@@ -1,0 +1,31 @@
+<div *ngIf="standings && standings.length > 0" style="margin-top: 2rem; text-align: center;">
+  <h2>Tabla de posiciones</h2>
+  <table style="margin: 0 auto; border-collapse: collapse; min-width: 400px;">
+    <thead>
+      <tr style="background: #eee;">
+        <th>Pos</th>
+        <th>Equipo</th>
+        <th>PJ</th>
+        <th>PG</th>
+        <th>PE</th>
+        <th>PP</th>
+        <th>GF</th>
+        <th>GC</th>
+        <th>Pts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of standings; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ team.name }}</td>
+        <td>{{ team.played }}</td>
+        <td>{{ team.won }}</td>
+        <td>{{ team.drawn }}</td>
+        <td>{{ team.lost }}</td>
+        <td>{{ team.goalsFor }}</td>
+        <td>{{ team.goalsAgainst }}</td>
+        <td>{{ team.points }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

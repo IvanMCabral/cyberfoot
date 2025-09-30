@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+}
+th, td {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+th {
+  background: #e0e0e0;
+}
+tr:last-child td {
+  border-bottom: none;
+}

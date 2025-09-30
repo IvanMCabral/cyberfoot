@@ -9,15 +9,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let player of team.players; let i = index">
+  <tr *ngFor="let player of team.players; let i = index">
         <td>{{ player.name }}</td>
         <td style="text-align: right;">{{ player.rating }}</td>
         <td style="text-align: center;">
-          <input type="checkbox" [(ngModel)]="player.isStarter" [disabled]="getStartersCount() >= 7 && !player.isStarter" />
+         <input type="checkbox" [checked]="player.isStarter" (change)="toggleStarter($event, player)" [disabled]="startersCount >= 7 && !player.isStarter" />
         </td>
       </tr>
     </tbody>
   </table>
-  <div style="margin-top: 1rem; color: #1976d2; font-weight: bold;">Titulares seleccionados: {{ getStartersCount() }}/7</div>
-  <button (click)="confirm()" [disabled]="getStartersCount() !== 7" style="margin-top: 1rem; padding: 0.5rem 2rem; font-size: 1.1rem; border-radius: 6px; background: #1976d2; color: white; border: none; cursor: pointer;">Confirmar alineación</button>
+  <div style="margin-top: 1rem; color: #1976d2; font-weight: bold;">Titulares seleccionados: {{ startersCount }}/7</div>
+  <button (click)="confirm()" [disabled]="startersCount !== 7" style="margin-top: 1rem; padding: 0.5rem 2rem; font-size: 1.1rem; border-radius: 6px; background: #1976d2; color: white; border: none; cursor: pointer;">Confirmar alineación</button>
 </div>
