@@ -7,7 +7,9 @@ public class ClubMapper {
 		return new Club(
 			entity.get_id(),
 			entity.getName(),
-			entity.getOverall()
+			entity.getOverall(),
+			entity.getDirectorTecnicoId(),
+			new java.util.ArrayList<>() // Sin jugadores
 		);
 	}
 
@@ -15,7 +17,8 @@ public class ClubMapper {
 		return new ClubEntity(
 			club.id(),
 			club.name(),
-			club.overall()
+			club.overall(),
+			club.directorTecnicoId()
 		);
 	}
 }

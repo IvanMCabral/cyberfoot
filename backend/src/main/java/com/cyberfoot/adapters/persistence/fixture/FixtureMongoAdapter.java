@@ -26,6 +26,15 @@ public class FixtureMongoAdapter implements FixtureRepository {
     }
 
     @Override
+    public Flux<Fixture> saveAll(java.util.List<Fixture> fixtures) {
+        java.util.List<FixtureEntity> entities = fixtures.stream()
+            .map(FixtureMapper::toEntity)
+            .toList();
+        return mongoRepo.saveAll(entities)
+            .map(FixtureMapper::toDomain);
+    }
+
+    @Override
     public Flux<Fixture> findAll() {
         return mongoRepo.findAll()
             .map(FixtureMapper::toDomain);

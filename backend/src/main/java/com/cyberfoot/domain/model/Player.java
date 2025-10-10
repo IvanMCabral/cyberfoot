@@ -12,4 +12,6 @@ public record Player(
     String clubId,
     String name,
     int rating
-) {}
+) {
+    // ...existing code...
+}

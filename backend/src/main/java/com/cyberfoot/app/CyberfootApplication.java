@@ -16,7 +16,14 @@ import com.mongodb.reactivestreams.client.MongoClients;
 import org.springframework.beans.factory.annotation.Value;
 
 @SpringBootApplication(scanBasePackages = "com.cyberfoot", exclude = {SecurityAutoConfiguration.class, ReactiveSecurityAutoConfiguration.class})
-@EnableReactiveMongoRepositories(basePackages = {"com.cyberfoot.adapters.persistence.club", "com.cyberfoot.adapters.persistence.season", "com.cyberfoot.adapters.persistence.fixture", "com.cyberfoot.adapters.persistence.player"})
+@EnableReactiveMongoRepositories(basePackages = {
+    "com.cyberfoot.adapters.persistence.club",
+    "com.cyberfoot.adapters.persistence.season",
+    "com.cyberfoot.adapters.persistence.fixture",
+    "com.cyberfoot.adapters.persistence.player",
+    "com.cyberfoot.adapters.repository",
+    "com.cyberfoot.adapters.persistence.gamesession"
+})
 public class CyberfootApplication {
     @Bean
     public ReactiveMongoTemplate reactiveMongoTemplate(@Value("${spring.data.mongodb.uri}") String mongoUri) {
@@ -26,11 +33,12 @@ public class CyberfootApplication {
     public static void main(String[] args) throws Exception {
         // Ubicación final: backend/logs (si corrés desde backend/app)
         // Creamos el directorio si no existe
-            Path logDir = Paths.get(System.getProperty("user.dir"), "logs").normalize();
+        Path logDir = Paths.get(System.getProperty("user.dir"), "logs").normalize();
         Files.createDirectories(logDir);
         SpringApplication.run(CyberfootApplication.class, args);
         logger.info("Cyberfoot backend started. Working directory: {}", System.getProperty("user.dir"));
         logger.info("Log directory: {}", logDir);
     }
+
 }
 // TODO[M1]: Agregar CommandLineRunner para seed inicial

@@ -6,5 +6,6 @@ import reactor.core.publisher.Mono;
 public interface FixtureRepository {
     Mono<Fixture> findById(String id);
     Mono<Fixture> save(Fixture fixture);
+    reactor.core.publisher.Flux<Fixture> saveAll(java.util.List<Fixture> fixtures);
     reactor.core.publisher.Flux<Fixture> findAll();
 }
